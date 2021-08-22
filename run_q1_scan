@@ -1,0 +1,22 @@
+#!/bin//tcsh 
+source /apps/root/PRO.old/setroot_CUE.csh
+setenv file shms_pointtarg_7p5deg_2gev_wc_mscat_vac
+foreach q1 (0.90)
+setenv quad shms_vary_Q1_${q1}_Q2_1.00_Q3_1.00
+cd src
+echo ${quad}
+echo ${file}
+cd shms
+ln -sf cosy/${quad}_forward.dat shms-2011-26cm-monte_ideal_6ord_forward.dat
+ln -sf cosy/${quad}_recon.dat shms-2011-26cm-monte_ideal_6ord_recon.dat
+ls -lrt
+cd ..
+#mc_single_arm << endofinput >! ../runout/${file}.out
+mc_single_arm << endofinput 
+${file}
+endofinput
+cd ..
+h2root worksim/${file}.rzdat worksim/${file}_${quad}.root
+echo  worksim/${file}_${quad}.root
+end
+
